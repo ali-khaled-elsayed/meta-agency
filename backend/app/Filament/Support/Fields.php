@@ -110,6 +110,18 @@ class Fields
             ->panelLayout('grid');
     }
 
+    public static function video(string $name, string $directory, string $label = 'Upload video'): FileUpload
+    {
+        return FileUpload::make($name)
+            ->label($label)
+            ->disk(Media::DISK)
+            ->directory($directory)
+            ->visibility('public')
+            ->acceptedFileTypes(['video/mp4', 'video/webm'])
+            ->maxSize(51200)
+            ->helperText('MP4 or WebM, up to 50 MB. Keep it short and compressed. Used instead of the video URL when set.');
+    }
+
     public static function videoUrl(string $name = 'video_url'): TextInput
     {
         return TextInput::make($name)

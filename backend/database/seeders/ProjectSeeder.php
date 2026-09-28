@@ -73,8 +73,11 @@ class ProjectSeeder extends Seeder
                 'excerpt' => $project['excerpt'],
                 'body' => ['en' => $this->bodyEn(), 'ar' => $this->bodyAr()],
                 'service_id' => $services[$project['service']] ?? null,
-                'image' => $this->publishAsset("services/{$project['service']}.jpg"),
-                'gallery' => array_map(fn (string $slug) => $this->publishAsset("services/$slug.jpg"), $project['gallery']),
+                'image' => $this->publishAsset("marketing/projects/{$project['slug']}.jpg"),
+                'gallery' => [
+                    $this->publishAsset("marketing/projects/{$project['slug']}-2.jpg"),
+                    ...array_map(fn (string $slug) => $this->publishAsset("marketing/services/$slug.jpg"), array_slice($project['gallery'], 0, 2)),
+                ],
                 'video_url' => self::VIDEO,
                 'is_featured' => $order < 3,
                 'is_active' => true,

@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import type { CSSProperties, ReactNode } from "react";
 import { ProjectCard } from "@/components/cards/ProjectCard";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { PageCta } from "@/components/sections/PageCta";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Gallery } from "@/components/ui/Gallery";
 import { PageHero } from "@/components/ui/PageHero";
@@ -47,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectPage({ params }: Props) {
   const { locale, slug } = await resolveParams(params);
-  const [data, settings, dict] = await Promise.all([getProject(locale, slug), getSettings(locale), getDictionary(locale)]);
+  const [data, dict] = await Promise.all([getProject(locale, slug), getDictionary(locale)]);
   if (!data) notFound();
   const { project, related } = data;
   const title = project.title ?? project.slug;
@@ -135,8 +134,6 @@ export default async function ProjectPage({ params }: Props) {
           </div>
         </section>
       )}
-
-      <PageCta locale={locale} dict={dict} title={settings.footer_cta} />
 
       <JsonLd
         data={{

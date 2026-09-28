@@ -29,7 +29,7 @@ class SiteSettingsService
     /** Settings stored as plain values. */
     public const PLAIN_KEYS = [
         'contact_email', 'contact_phone', 'whatsapp_number', 'google_maps_url',
-        'logo', 'logo_light', 'logo_icon', 'default_og_image', 'hero_video_url', 'job_form_fields',
+        'logo', 'logo_light', 'logo_icon', 'default_og_image', 'hero_video', 'hero_video_url', 'job_form_fields',
     ];
 
     /** Settings never exposed publicly. */
@@ -58,7 +58,7 @@ class SiteSettingsService
             'contact_phone' => $values['contact_phone'] ?? null,
             'whatsapp_number' => $values['whatsapp_number'] ?? null,
             'google_maps_url' => $values['google_maps_url'] ?? null,
-            'hero_video_url' => $values['hero_video_url'] ?? null,
+            'hero_video_url' => Media::url($values['hero_video'] ?? null) ?? ($values['hero_video_url'] ?? null),
             'logo' => Media::url($values['logo'] ?? null),
             'logo_light' => Media::url($values['logo_light'] ?? null),
             'logo_icon' => Media::url($values['logo_icon'] ?? null),

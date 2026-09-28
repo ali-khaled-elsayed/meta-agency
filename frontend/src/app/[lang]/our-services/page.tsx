@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { PageCta } from "@/components/sections/PageCta";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ArrowIcon } from "@/components/ui/Button";
 import { PageHero } from "@/components/ui/PageHero";
 import { FadeIn } from "@/lib/animations/FadeIn";
 import { RevealImage } from "@/lib/animations/RevealImage";
-import { getPage, getServices, getSettings } from "@/lib/api/endpoints";
+import { getPage, getServices } from "@/lib/api/endpoints";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { cmsPageMetadata } from "@/lib/page-meta";
 import { resolveLocale } from "@/lib/params";
@@ -24,10 +23,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ServicesPage({ params }: Props) {
   const locale = await resolveLocale(params);
-  const [page, services, settings, dict] = await Promise.all([
+  const [page, services, dict] = await Promise.all([
     getPage(locale, "our-services"),
     getServices(locale),
-    getSettings(locale),
     getDictionary(locale),
   ]);
 
@@ -90,8 +88,6 @@ export default async function ServicesPage({ params }: Props) {
           ))}
         </ol>
       </section>
-
-      <PageCta locale={locale} dict={dict} title={settings.footer_cta} />
     </>
   );
 }

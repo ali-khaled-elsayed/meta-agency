@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { PageCta } from "@/components/sections/PageCta";
 import { ProjectsGrid } from "@/components/sections/ProjectsGrid";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
@@ -36,6 +35,8 @@ export default async function ProjectsPage({ params }: Props) {
         title={page?.title ?? dict.nav.work}
         intro={page?.intro}
         video={[page?.hero_video_url, settings.hero_video_url].find(isVideoFile)}
+        videoAsBackground
+        image={projects.find((p) => p.image)?.image}
         breadcrumbs={
           <Breadcrumbs
             items={[
@@ -63,7 +64,6 @@ export default async function ProjectsPage({ params }: Props) {
           )}
         </div>
       </section>
-      <PageCta locale={locale} dict={dict} title={settings.footer_cta} />
     </>
   );
 }

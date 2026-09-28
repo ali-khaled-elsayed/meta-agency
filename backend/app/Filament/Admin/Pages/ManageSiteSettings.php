@@ -74,7 +74,8 @@ class ManageSiteSettings extends Page
                         Fields::image('logo_icon', 'brand', 'Icon / favicon source')->imageEditor(false),
                     ]),
                     Fields::image('default_og_image', 'brand', 'Default social sharing image (1200×630)'),
-                    Fields::videoUrl('hero_video_url')->label('Homepage hero video URL'),
+                    Fields::video('hero_video', 'brand/videos', 'Hero video (upload)'),
+                    Fields::videoUrl('hero_video_url')->label('…or hero video URL'),
                 ]),
                 Tab::make('Contact')->icon(Heroicon::OutlinedPhone)->schema([
                     Grid::make(2)->schema([

@@ -35,7 +35,7 @@ class ServiceSeeder extends Seeder
                 'title' => ['en' => $title],
                 'short_title' => ['en' => $short],
                 'excerpt' => ['en' => $excerpt],
-                'image' => $this->publishAsset("services/$slug.jpg"),
+                'image' => $this->publishAsset("marketing/services/$slug.jpg"),
                 'is_featured' => $i < 4,
                 'sort_order' => $i + 1,
             ]);

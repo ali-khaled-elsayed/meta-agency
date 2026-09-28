@@ -15,7 +15,7 @@ class Page extends Model
 
     protected array $translatable = ['title', 'eyebrow', 'intro', 'body'];
 
-    protected $fillable = ['slug', 'title', 'eyebrow', 'intro', 'body', 'hero_image', 'hero_video_url', 'seo', 'is_active'];
+    protected $fillable = ['slug', 'title', 'eyebrow', 'intro', 'body', 'hero_image', 'hero_video', 'hero_video_url', 'seo', 'is_active'];
 
     protected function casts(): array
     {

@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { ClientMarquee } from "@/components/home/ClientMarquee";
-import { HighlightsRail } from "@/components/home/HighlightsRail";
-import { VelocityMarquee } from "@/components/home/VelocityMarquee";
-import { PageCta } from "@/components/sections/PageCta";
 import { ServicesAccordion } from "@/components/sections/ServicesAccordion";
 import { StatsGrid } from "@/components/home/StatsGrid";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
@@ -14,7 +11,7 @@ import { Eyebrow, SectionHeading } from "@/components/ui/SectionHeading";
 import { FadeIn } from "@/lib/animations/FadeIn";
 import { ScrubText } from "@/lib/animations/ScrubText";
 import { StaggerContainer, StaggerItem } from "@/lib/animations/StaggerContainer";
-import { getClients, getHighlights, getPage, getSettings, getTeam } from "@/lib/api/endpoints";
+import { getClients, getPage, getSettings, getTeam } from "@/lib/api/endpoints";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { cmsPageMetadata } from "@/lib/page-meta";
 import { resolveLocale } from "@/lib/params";
@@ -31,16 +28,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function AboutPage({ params }: Props) {
   const locale = await resolveLocale(params);
-  const [page, settings, dict, whyMeta, values, team, clients] = await Promise.all([
+  const [page, settings, dict, team, clients] = await Promise.all([
     getPage(locale, "about"),
     getSettings(locale),
     getDictionary(locale),
-    getHighlights(locale, "why_meta"),
-    getHighlights(locale, "values"),
     getTeam(locale),
     getClients(locale),
   ]);
-  const highlights = values.length > 0 ? values : whyMeta;
 
   return (
     <>
@@ -76,30 +70,44 @@ export default async function AboutPage({ params }: Props) {
             .filter((b): b is { label: string; text: string } => !!b.text)
             .map((block, i) => (
               <div key={block.label} className="section-y relative overflow-hidden">
+                {i > 0 && (
+                  <span aria-hidden className="line-scrub absolute inset-x-[var(--gutter)] top-0 block h-px origin-left bg-lavender/40 rtl:origin-right" />
+                )}
                 <span
                   aria-hidden
                   className={cn(
-                    "drift-y pointer-events-none absolute top-1/2 -translate-y-1/2 select-none font-display text-[34vw] font-extrabold leading-none text-transparent [-webkit-text-stroke:1px_rgb(187_169_255/0.14)] lg:text-[26vw]",
+                    "slide-in pointer-events-none absolute inset-y-0 flex items-center",
                     i % 2 === 0 ? "start-[-2vw]" : "end-[-2vw]",
                   )}
-                  style={{ "--drift": "8vh" } as CSSProperties}
+                  style={{ "--slide-x": i % 2 === 0 ? "30vw" : "-30vw" } as CSSProperties}
                 >
-                  {pad(i + 1)}
+                  <span className="drift-y relative select-none" style={{ "--drift": "8vh" } as CSSProperties}>
+                    <span className="spin-scrub absolute left-1/2 top-1/2 block aspect-square w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-lavender/25" />
+                    <span className="mv-fill relative block font-display text-[34vw] font-extrabold leading-none text-transparent [-webkit-text-stroke:1px_rgb(187_169_255/0.2)] lg:text-[26vw]">
+                      {pad(i + 1)}
+                    </span>
+                  </span>
                 </span>
                 <div className="container-site relative grid lg:grid-cols-12">
-                  <div className={cn("lg:col-span-7", i % 2 === 0 ? "lg:col-start-6" : "lg:col-start-1")}>
-                    <FadeIn>
-                      <Eyebrow>{block.label}</Eyebrow>
-                    </FadeIn>
-                    <ScrubText text={block.text} className="mt-8 font-display text-3xl leading-tight tracking-tight md:text-5xl" />
+                  <div
+                    className={cn("slide-in lg:col-span-7", i % 2 === 0 ? "lg:col-start-6" : "lg:col-start-1")}
+                    style={{ "--slide-x": i % 2 === 0 ? "-22vw" : "22vw" } as CSSProperties}
+                  >
+                    <div className="relative ps-6 md:ps-10">
+                      <span aria-hidden className="absolute inset-y-0 start-0 w-px bg-line">
+                        <span className="mv-progress block h-full w-full origin-top bg-lavender" />
+                      </span>
+                      <FadeIn>
+                        <Eyebrow>{block.label}</Eyebrow>
+                      </FadeIn>
+                      <ScrubText text={block.text} className="mt-8 font-display text-3xl leading-tight tracking-tight md:text-5xl" />
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
         </section>
       )}
-
-      {highlights.length > 0 && <VelocityMarquee items={highlights.map((h) => h.title).filter((t): t is string => !!t)} />}
 
       {settings.statistics.length > 0 && (
         <section className="pb-24 md:pb-40">
@@ -109,23 +117,21 @@ export default async function AboutPage({ params }: Props) {
         </section>
       )}
 
-      {highlights.length > 0 && (
-        <section className="bg-ink-2 pb-24 pt-24 md:pt-40 lg:pb-0">
-          <div className="container-site mb-16 lg:mb-0">
-            <SectionHeading eyebrow={dict.home.whyMeta} />
-          </div>
-          <HighlightsRail items={highlights} />
-        </section>
-      )}
-
       {settings.services.length > 0 && (
-        <section className="section-y">
-          <div className="container-site">
-            <SectionHeading eyebrow={dict.about.whatWeDo} title={dict.about.whatWeDoTitle} size="md" className="mb-14 md:mb-20" />
-            <ServicesAccordion
-              services={settings.services.map((s) => ({ ...s, href: localizeHref(locale, routes.service(s.slug)) }))}
-              learnMore={dict.common.learnMore}
-            />
+        <section className="section-y overflow-x-clip">
+          <div className="container-site grid gap-10 lg:grid-cols-12 lg:gap-12">
+            <div className="lg:col-span-4">
+              <div className="slide-in lg:sticky lg:top-32" style={{ "--slide-x": "-8vw" } as CSSProperties}>
+                <SectionHeading eyebrow={dict.about.whatWeDo} title={dict.about.whatWeDoTitle} size="md" />
+              </div>
+            </div>
+            <div className="lg:col-span-8">
+              <ServicesAccordion
+                variant="list"
+                services={settings.services.map((s) => ({ ...s, href: localizeHref(locale, routes.service(s.slug)) }))}
+                learnMore={dict.common.learnMore}
+              />
+            </div>
           </div>
         </section>
       )}
@@ -158,8 +164,6 @@ export default async function AboutPage({ params }: Props) {
       )}
 
       <ClientMarquee clients={clients} />
-
-      <PageCta locale={locale} dict={dict} title={settings.footer_cta} />
     </>
   );
 }

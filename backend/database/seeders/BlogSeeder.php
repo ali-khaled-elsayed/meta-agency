@@ -8,9 +8,9 @@ use Database\Seeders\Concerns\PublishesSeedAssets;
 use Illuminate\Database\Seeder;
 
 /**
- * The eight posts published on meta-egypt-agency.com/blog, imported as they appear there (titles, dates,
- * cover images and body). The live posts are the WordPress theme's sample articles and are meant to be
- * rewritten or replaced from the admin.
+ * The eight posts published on meta-egypt-agency.com/blog, imported with their titles, dates and body, and
+ * original digital-marketing cover images. The live posts are the WordPress theme's sample articles and are
+ * meant to be rewritten or replaced from the admin.
  */
 class BlogSeeder extends Seeder
 {
@@ -39,7 +39,7 @@ class BlogSeeder extends Seeder
                 'excerpt' => ['en' => self::EXCERPT],
                 'body' => ['en' => $this->body()],
                 'author_name' => 'Meta Egypt Agency',
-                'cover_image' => $this->publishAsset("blog/$slug.webp"),
+                'cover_image' => $this->publishAsset("marketing/blog/$slug.jpg"),
                 'reading_minutes' => 3,
                 'status' => 'published',
                 'published_at' => $publishedAt,

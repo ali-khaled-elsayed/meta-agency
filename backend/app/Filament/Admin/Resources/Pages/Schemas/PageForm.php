@@ -33,7 +33,8 @@ class PageForm
                     ]),
                     Section::make('Hero media')->schema([
                         Fields::image('hero_image', 'pages', 'Hero image'),
-                        Fields::videoUrl('hero_video_url'),
+                        Fields::video('hero_video', 'pages/videos', 'Hero video (upload)'),
+                        Fields::videoUrl('hero_video_url')->label('…or hero video URL'),
                     ]),
                 ]),
             ]),

@@ -578,6 +578,19 @@ html.lenis body {
       animation: spin-scrub linear both;
       animation-timeline: view();
     }
+    .mv-fill {
+      background: linear-gradient(to top, rgb(187 169 255 / 0.4), rgb(187 169 255 / 0.08)) no-repeat bottom / 100% 0%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: mv-fill linear both;
+      animation-timeline: view();
+      animation-range: entry 30% cover 65%;
+    }
+    .mv-progress {
+      animation: mv-progress linear both;
+      animation-timeline: view();
+      animation-range: entry 60% cover 70%;
+    }
     @media (min-width: 1024px) {
       .drift-y {
         animation: drift-y linear both;
@@ -585,6 +598,13 @@ html.lenis body {
       }
     }
   }
+}
+@keyframes mv-fill {
+  to { background-size: 100% 100%; }
+}
+@keyframes mv-progress {
+  from { scale: 1 0; }
+  to { scale: 1 1; }
 }
 @keyframes line-scrub {
   from { scale: 0 1; }
@@ -655,6 +675,17 @@ html.lenis body {
     animation: hex-pulse 9s ease-in-out infinite;
     animation-delay: calc(var(--i, 0) * 0.45s);
   }
+  .bubble-float {
+    animation: bubble-float calc(5s + var(--i, 0) * 0.6s) ease-in-out infinite;
+    animation-delay: calc(var(--i, 0) * -1.3s);
+  }
+}
+/* Footer page bubbles drift on their own loose loops. */
+@keyframes bubble-float {
+  0%, 100% { translate: 0 0; }
+  25% { translate: 4px -10px; }
+  50% { translate: 0 -4px; }
+  75% { translate: -4px -12px; }
 }
 .group:hover .hex-pulse,
 .group:focus-visible .hex-pulse {

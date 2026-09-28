@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProjectCard } from "@/components/cards/ProjectCard";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { PageCta } from "@/components/sections/PageCta";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ArrowIcon, Button } from "@/components/ui/Button";
 import { Gallery } from "@/components/ui/Gallery";
@@ -48,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ServicePage({ params }: Props) {
   const { locale, slug } = await resolveParams(params);
-  const [data, settings, dict] = await Promise.all([getService(locale, slug), getSettings(locale), getDictionary(locale)]);
+  const [data, dict] = await Promise.all([getService(locale, slug), getDictionary(locale)]);
   if (!data) notFound();
   const { service, meta } = data;
   const title = service.title ?? service.slug;
@@ -170,8 +169,6 @@ export default async function ServicePage({ params }: Props) {
           {dict.services.allServices}
         </Button>
       </div>
-
-      <PageCta locale={locale} dict={dict} title={settings.footer_cta} label={dict.services.cta} />
 
       <JsonLd
         data={{

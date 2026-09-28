@@ -15,7 +15,7 @@ class PageResource extends BaseResource
             'intro' => $this->t('intro'),
             'body' => $this->html('body'),
             'hero_image' => $this->media($this->hero_image),
-            'hero_video_url' => $this->hero_video_url,
+            'hero_video_url' => $this->media($this->hero_video) ?? $this->hero_video_url,
             'updated_at' => $this->updated_at?->toIso8601String(),
             'seo' => $this->seo(),
         ];

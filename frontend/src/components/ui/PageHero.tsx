@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 import { ParallaxImage } from "@/lib/animations/ParallaxImage";
 import { cn, isVideoFile } from "@/lib/utils";
@@ -8,6 +9,7 @@ type Props = {
   intro?: string | null;
   image?: string | null;
   video?: string | null;
+  videoAsBackground?: boolean;
   breadcrumbs?: ReactNode;
   children?: ReactNode;
   className?: string;
@@ -18,12 +20,27 @@ type Props = {
  * scrolling lifts the copy away while an outlined copy of the title drifts behind it. An optional video
  * sits below as a framed reel that opens to full width as it scrolls into view.
  */
-export function PageHero({ eyebrow, title, intro, image, video, breadcrumbs, children, className }: Props) {
+export function PageHero({ eyebrow, title, intro, image, video, videoAsBackground, breadcrumbs, children, className }: Props) {
   const words = title.split(/\s+/).filter(Boolean);
   const hasVideo = isVideoFile(video);
+  const backdrop = hasVideo && videoAsBackground;
 
   return (
-    <header className={cn("relative overflow-hidden pt-[calc(var(--header-h)+6vh)]", className)}>
+    <header
+      className={cn(
+        "relative overflow-hidden pt-[calc(var(--header-h)+6vh)]",
+        backdrop && "flex min-h-[92svh] flex-col justify-end",
+        className,
+      )}
+    >
+      {backdrop && (
+        <div aria-hidden className="intro-fade absolute inset-0" style={{ "--d": "0ms" } as CSSProperties}>
+          {image && <Image src={image} alt="" fill priority sizes="100vw" className="object-cover" />}
+          <video className="relative h-full w-full object-cover" src={video!} autoPlay muted loop playsInline preload="auto" />
+          <div className="absolute inset-0 bg-ink/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-ink/50" />
+        </div>
+      )}
       <p
         aria-hidden
         className="drift-x pointer-events-none absolute inset-x-0 top-[calc(var(--header-h)+2vh)] select-none whitespace-nowrap font-display text-[18vw] font-extrabold uppercase leading-none tracking-tighter text-transparent [-webkit-text-stroke:1px_rgb(187_169_255/0.1)]"
@@ -63,7 +80,7 @@ export function PageHero({ eyebrow, title, intro, image, video, breadcrumbs, chi
           {children}
         </div>
       </div>
-      {hasVideo ? (
+      {backdrop ? null : hasVideo ? (
         <div className="intro-fade relative z-10 pb-10" style={{ "--d": "600ms" } as CSSProperties}>
           <div className="video-expand relative aspect-video max-h-[88vh] w-full overflow-hidden bg-ink-3">
             <video className="h-full w-full object-cover" src={video!} poster={image ?? undefined} autoPlay muted loop playsInline preload="metadata" aria-hidden />
