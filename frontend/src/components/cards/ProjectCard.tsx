@@ -39,8 +39,8 @@ export function ProjectCard({ project, href, cursorLabel, className, aspect = "a
             <ArrowIcon className="h-5 w-5 -rotate-45 rtl:rotate-[-135deg]" />
           </span>
         </RevealImage>
-        <div className="mt-6 flex items-start justify-between gap-6">
-          <div>
+        <div className="mt-6 flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
+          <div className="min-w-0 flex-1 basis-48">
             <h3 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
               <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-no-repeat pb-1 transition-[background-size,color] duration-700 ease-[var(--ease-expo)] [background-position:0_100%] group-hover:bg-[length:100%_1px] group-hover:text-lavender rtl:[background-position:100%_100%]">
                 {project.title}

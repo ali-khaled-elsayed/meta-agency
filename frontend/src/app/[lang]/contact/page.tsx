@@ -124,7 +124,7 @@ export default async function ContactPage({ params }: Props) {
               {settings.offices.map((office, i) => (
                 <FadeIn key={office.id} delay={i * 0.1} y={60} className="h-full">
                   <TiltCard className="h-full rounded-3xl">
-                    <address className="group relative flex h-full min-h-72 flex-col overflow-hidden rounded-3xl border border-line p-8 not-italic transition-colors duration-500 hover:border-lavender hover:text-ink md:p-10">
+                    <address className="group relative flex h-full flex-col md:min-h-72 overflow-hidden rounded-3xl border border-line p-8 not-italic transition-colors duration-500 hover:border-lavender hover:text-ink md:p-10">
                       <span
                         aria-hidden
                         className="absolute inset-0 origin-bottom scale-y-0 bg-lavender transition-transform duration-700 ease-[var(--ease-expo)] group-hover:scale-y-100"

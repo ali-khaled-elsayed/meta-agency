@@ -120,14 +120,14 @@ export default async function ProjectPage({ params }: Props) {
         <section className="section-y border-t border-line">
           <div className="container-site">
             <SectionHeading eyebrow={dict.projects.moreWork} size="md" className="mb-14" />
-            <div className="grid gap-x-8 gap-y-16 md:grid-cols-3">
+            <div className="grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((p) => (
                 <ProjectCard
                   key={p.id}
                   project={p}
                   href={localizeHref(locale, routes.project(p.slug))}
                   cursorLabel={dict.common.viewProject}
-                  sizes="(min-width: 768px) 33vw, 100vw"
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                 />
               ))}
             </div>
