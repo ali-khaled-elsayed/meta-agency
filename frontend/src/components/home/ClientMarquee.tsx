@@ -10,16 +10,18 @@ function LogoItem({ client, hidden }: { client: Client; hidden?: boolean }) {
     <Image
       src={client.logo}
       alt={hidden ? "" : (client.name ?? "")}
-      width={200}
-      height={100}
-      sizes="160px"
-      className="h-12 w-auto max-w-[9rem] object-contain opacity-60 transition-opacity duration-500 group-hover:opacity-100 md:h-14"
+      width={320}
+      height={160}
+      sizes="(min-width: 768px) 288px, 208px"
+      className="h-20 w-auto max-w-[13rem] object-contain contrast-125 saturate-125 transition-transform duration-500 group-hover:scale-110 md:h-28 md:max-w-[18rem]"
     />
   ) : (
-    <span className="font-display text-xl font-semibold">{client.name}</span>
+    <span className="font-display text-3xl font-extrabold tracking-tight transition-colors duration-500 group-hover:text-lavender md:text-5xl">
+      {client.name}
+    </span>
   );
   return (
-    <li className="group flex shrink-0 items-center px-8 md:px-14" aria-hidden={hidden || undefined}>
+    <li className="group flex shrink-0 items-center px-8 md:px-16" aria-hidden={hidden || undefined}>
       {client.website_url && !hidden ? (
         <a href={client.website_url} target="_blank" rel="noopener noreferrer" aria-label={client.name ?? undefined}>
           {img}

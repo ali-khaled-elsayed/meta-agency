@@ -49,6 +49,7 @@ class SettingsSeeder extends Seeder
             'logo' => $this->publishAsset('brand/meta-agency-logo.png'),
             'logo_light' => $this->publishAsset('brand/meta-agency-logo-light.png'),
             'logo_icon' => $this->publishAsset('brand/meta-agency-icon.png'),
+            'theme_toggle' => true,
         ];
 
         foreach ($settings as $key => $value) {

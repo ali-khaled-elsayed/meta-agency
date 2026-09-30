@@ -9,10 +9,11 @@ import { MagneticButton } from "@/lib/animations/MagneticButton";
 import { cn } from "@/lib/utils";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { MobileMenu } from "./MobileMenu";
+import { ThemeToggle } from "./ThemeToggle";
 import type { HeaderProps } from "./types";
 
 export function Header(props: HeaderProps) {
-  const { locale, siteName, homeHref, nav, cta, labels } = props;
+  const { locale, siteName, homeHref, themeToggle, nav, cta, labels } = props;
   const pathname = usePathname();
   const { scrollY } = useScroll();
   const [compact, setCompact] = useState(false);
@@ -83,6 +84,7 @@ export function Header(props: HeaderProps) {
 
           <div className="relative z-10 flex items-center gap-4">
             <LanguageSwitcher locale={locale} label={labels.switchLanguage} className="hidden text-paper md:flex" />
+            {themeToggle && <ThemeToggle labels={{ light: labels.lightMode, dark: labels.darkMode }} />}
             <MagneticButton className="hidden md:inline-block">
               <Link
                 href={cta.href}

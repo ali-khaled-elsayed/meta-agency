@@ -32,7 +32,7 @@ function useColumns() {
 
 /**
  * Client logos in a honeycomb. Cells spin up into place as a wave on scroll, float gently, and a lavender
- * pulse travels through the comb's outlines; hovering a cell lights it up and colours its logo.
+ * pulse travels through the comb's outlines; hovering a cell lights it up and lifts its logo.
  */
 export function ClientGrid({ clients, title }: { clients: Client[]; title?: string | null }) {
   const cols = useColumns();
@@ -86,13 +86,13 @@ function HexLogo({ client, index }: { client: Client; index: number }) {
         <Image
           src={client.logo}
           alt={client.name ?? ""}
-          width={200}
-          height={100}
-          sizes="160px"
-          className="relative h-9 w-auto max-w-[64%] object-contain sm:h-12 md:h-16 opacity-60 grayscale transition-all duration-500 group-hover:scale-110 group-hover:opacity-100 group-hover:grayscale-0"
+          width={400}
+          height={280}
+          sizes="(min-width: 1024px) 18vw, 30vw"
+          className="relative h-[58%] w-[82%] object-contain contrast-125 transition-transform duration-500 group-hover:scale-105"
         />
       ) : (
-        <span className="relative max-w-[70%] text-center font-display text-sm font-semibold text-paper/70 transition-colors group-hover:text-paper md:text-base">
+        <span className="relative max-w-[82%] text-center font-display text-base font-extrabold leading-tight text-paper transition-colors group-hover:text-lavender sm:text-xl md:text-2xl">
           {client.name}
         </span>
       )}

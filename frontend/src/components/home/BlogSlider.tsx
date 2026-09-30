@@ -9,7 +9,7 @@ type Props = { slides: { key: string | number; node: ReactNode }[]; labels: { pr
 /**
  * Continuously gliding, endlessly looping slider. The slides are rendered twice and a rAF clock drifts the
  * track by one card every `interval` ms, wrapping back by one set's width so the loop is seamless. It holds
- * while off-screen, dragged, swiped or wheeled, and the arrows glide one card at a time.
+ * while off-screen, hovered, dragged, swiped or wheeled, and the arrows glide one card at a time.
  */
 export function BlogSlider({ slides, labels, interval = 4000 }: Props) {
   const track = useRef<HTMLDivElement>(null);
@@ -20,6 +20,7 @@ export function BlogSlider({ slides, labels, interval = 4000 }: Props) {
   const [active, setActive] = useState(0);
   const [visible, setVisible] = useState(false);
   const [dragging, setDragging] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const [scrollable, setScrollable] = useState(true);
   const count = slides.length;
 
@@ -78,7 +79,7 @@ export function BlogSlider({ slides, labels, interval = 4000 }: Props) {
     };
   }, [metrics]);
 
-  const running = visible && !dragging && scrollable;
+  const running = visible && !dragging && !hovered && scrollable;
 
   useEffect(() => {
     if (!running) return;
@@ -135,6 +136,8 @@ export function BlogSlider({ slides, labels, interval = 4000 }: Props) {
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
+        onPointerEnter={(e) => e.pointerType === "mouse" && setHovered(true)}
+        onPointerLeave={() => setHovered(false)}
         onTouchStart={() => hold(Infinity)}
         onTouchEnd={() => hold(1500)}
         onWheel={(e) => Math.abs(e.deltaX) > Math.abs(e.deltaY) && hold(1200)}

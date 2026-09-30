@@ -13,6 +13,8 @@
     "skipToContent": "انتقل إلى المحتوى",
     "primary": "التنقل الرئيسي",
     "switchLanguage": "تغيير اللغة",
+    "lightMode": "التبديل إلى الوضع الفاتح",
+    "darkMode": "التبديل إلى الوضع الداكن",
     "startProject": "ابدأ مشروعك"
   },
   "common": {

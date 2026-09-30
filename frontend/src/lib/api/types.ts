@@ -229,6 +229,7 @@ export type SiteSettings = {
   logo_icon: string | null;
   default_og_image: string | null;
   job_form_fields: Record<JobFormField, JobFormFieldMode>;
+  theme_toggle: boolean;
   social_links: SocialLink[];
   offices: Office[];
   statistics: Statistic[];

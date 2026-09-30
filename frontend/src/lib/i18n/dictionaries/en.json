@@ -13,6 +13,8 @@
     "skipToContent": "Skip to content",
     "primary": "Primary navigation",
     "switchLanguage": "Switch language",
+    "lightMode": "Switch to light mode",
+    "darkMode": "Switch to dark mode",
     "startProject": "Start a project"
   },
   "common": {

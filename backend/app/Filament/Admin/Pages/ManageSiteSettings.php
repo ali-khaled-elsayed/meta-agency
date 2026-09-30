@@ -10,6 +10,7 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Actions;
@@ -52,7 +53,10 @@ class ManageSiteSettings extends Page
         $values = SiteSetting::allValues();
         $keys = [...SiteSettingsService::TRANSLATABLE_KEYS, ...SiteSettingsService::PLAIN_KEYS, ...SiteSettingsService::PRIVATE_KEYS];
 
-        $this->form->fill(collect($keys)->mapWithKeys(fn (string $key) => [$key => $values[$key] ?? null])->all());
+        $this->form->fill([
+            ...collect($keys)->mapWithKeys(fn (string $key) => [$key => $values[$key] ?? null])->all(),
+            'theme_toggle' => (bool) ($values['theme_toggle'] ?? true),
+        ]);
     }
 
     public function form(Schema $schema): Schema
@@ -76,6 +80,12 @@ class ManageSiteSettings extends Page
                     Fields::image('default_og_image', 'brand', 'Default social sharing image (1200×630)'),
                     Fields::video('hero_video', 'brand/videos', 'Hero video (upload)'),
                     Fields::videoUrl('hero_video_url')->label('…or hero video URL'),
+                    Section::make('Appearance')->schema([
+                        Toggle::make('theme_toggle')
+                            ->label('Show the dark / light mode switch in the header')
+                            ->helperText('The site is dark by default. When off, the switch is hidden and every visitor sees dark mode.')
+                            ->default(true),
+                    ]),
                 ]),
                 Tab::make('Contact')->icon(Heroicon::OutlinedPhone)->schema([
                     Grid::make(2)->schema([

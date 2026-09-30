@@ -8,10 +8,11 @@ export type HeaderProps = {
   siteName: string;
   logo: string | null;
   homeHref: string;
+  themeToggle: boolean;
   nav: NavItem[];
   cta: NavItem;
   email: string | null;
   phone: string | null;
   socials: SocialLink[];
-  labels: { menu: string; close: string; switchLanguage: string; primary: string };
+  labels: { menu: string; close: string; switchLanguage: string; primary: string; lightMode: string; darkMode: string };
 };

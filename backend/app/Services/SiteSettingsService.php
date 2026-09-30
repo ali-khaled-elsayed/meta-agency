@@ -30,6 +30,7 @@ class SiteSettingsService
     public const PLAIN_KEYS = [
         'contact_email', 'contact_phone', 'whatsapp_number', 'google_maps_url',
         'logo', 'logo_light', 'logo_icon', 'default_og_image', 'hero_video', 'hero_video_url', 'job_form_fields',
+        'theme_toggle',
     ];
 
     /** Settings never exposed publicly. */
@@ -64,6 +65,7 @@ class SiteSettingsService
             'logo_icon' => Media::url($values['logo_icon'] ?? null),
             'default_og_image' => Media::url($values['default_og_image'] ?? null),
             'job_form_fields' => $this->jobFormFields($values['job_form_fields'] ?? []),
+            'theme_toggle' => (bool) ($values['theme_toggle'] ?? true),
             'social_links' => SocialLink::query()->active()->ordered()->get(['platform', 'url']),
             'offices' => OfficeResource::collection(Office::query()->active()->ordered()->get()),
             'statistics' => StatisticResource::collection(Statistic::query()->active()->ordered()->get()),

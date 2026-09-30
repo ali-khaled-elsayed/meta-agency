@@ -24,13 +24,13 @@ function Hex({ client, delay, index }: { client: Client; delay: number; index: n
     <Image
       src={client.logo}
       alt={client.name ?? ""}
-      width={200}
-      height={100}
-      sizes="(min-width: 768px) 14vw, 26vw"
-      className="h-auto max-h-[50%] w-auto max-w-[72%] object-contain opacity-90 transition duration-500 group-hover:scale-110 group-hover:opacity-100"
+      width={400}
+      height={280}
+      sizes="(min-width: 768px) 18vw, 30vw"
+      className="h-[58%] w-[82%] object-contain transition duration-500 group-hover:scale-105"
     />
   ) : (
-    <span className="px-4 text-center font-display text-sm font-extrabold md:text-lg">{client.name}</span>
+    <span className="px-3 text-center font-display text-base font-extrabold leading-tight sm:text-xl md:text-2xl">{client.name}</span>
   );
   const angle = index * 2.39996 + 0.6;
 

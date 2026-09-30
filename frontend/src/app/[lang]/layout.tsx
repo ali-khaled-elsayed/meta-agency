@@ -16,6 +16,7 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
 import { primaryNav } from "@/lib/navigation";
 import { localizeHref, routes } from "@/lib/routes";
 import { buildMetadata, organizationJsonLd, SITE_URL } from "@/lib/seo";
+import { themeInitScript } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
 const heading = Syne({ subsets: ["latin"], weight: ["600", "700", "800"], variable: "--font-heading", display: "swap" });
@@ -31,7 +32,7 @@ export function generateStaticParams() {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#09090c",
+  themeColor: "#0b0a12",
   colorScheme: "dark",
 };
 
@@ -53,6 +54,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const [settings, dict] = await Promise.all([getSettings(lang), getDictionary(lang)]);
   const siteName = settings.site_name ?? "Meta Egypt Agency";
   const nav = primaryNav(lang, dict, settings);
+  const themeToggle = settings.theme_toggle !== false;
 
   return (
     <html
@@ -61,7 +63,8 @@ export default async function LocaleLayout({ children, params }: Props) {
       className={cn(heading.variable, body.variable, arabic.variable)}
       suppressHydrationWarning
     >
-      <body className="min-h-dvh overflow-x-clip">
+      <head>{themeToggle && <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />}</head>
+      <body className="min-h-dvh overflow-x-clip" suppressHydrationWarning>
         <a
           href="#main"
           className="fixed start-4 top-4 z-[100] -translate-y-24 rounded-full bg-lavender px-5 py-3 text-sm font-semibold text-ink transition-transform focus:translate-y-0"
@@ -76,6 +79,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             siteName={siteName}
             logo={settings.logo}
             homeHref={localizeHref(lang, routes.home)}
+            themeToggle={themeToggle}
             nav={nav}
             cta={{ label: dict.nav.startProject, href: localizeHref(lang, routes.contact) }}
             email={settings.contact_email}
@@ -86,6 +90,8 @@ export default async function LocaleLayout({ children, params }: Props) {
               close: dict.nav.close,
               switchLanguage: dict.nav.switchLanguage,
               primary: dict.nav.primary,
+              lightMode: dict.nav.lightMode,
+              darkMode: dict.nav.darkMode,
             }}
           />
           <main id="main" tabIndex={-1} className="outline-none">
