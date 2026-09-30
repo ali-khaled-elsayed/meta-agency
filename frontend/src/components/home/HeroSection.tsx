@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
-import { LogoMark } from "@/components/ui/LogoMark";
+import { LogoLockup, LogoMark } from "@/components/ui/LogoMark";
 import type { HomeSection } from "@/lib/api/types";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
@@ -11,10 +11,9 @@ import { HeroBackdrop } from "./HeroBackdrop";
 import { ScrollBadge } from "./ScrollBadge";
 import { ServiceOrbit } from "./ServiceOrbit";
 
-type Props = { section: HomeSection; locale: Locale; dict: Dictionary; videoUrl?: string | null; siteName?: string };
+type Props = { section: HomeSection; locale: Locale; dict: Dictionary; videoUrl?: string | null };
 
-export function HeroSection({ section, locale, dict, videoUrl, siteName = "" }: Props) {
-  const [firstName, ...restName] = siteName.split(/\s+/).filter(Boolean);
+export function HeroSection({ section, locale, dict, videoUrl }: Props) {
   const title = section.title ?? "";
   const words = title.split(/\s+/).filter(Boolean);
   const video = section.video_url ?? videoUrl;
@@ -50,37 +49,30 @@ export function HeroSection({ section, locale, dict, videoUrl, siteName = "" }: 
       )}
 
       <div aria-hidden className="hero-logo pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
-        <div dir="ltr" className="flex items-center">
-          <div className="logo-anim logo-loader relative text-paper">
+        <div dir="ltr" className="flex flex-col items-center">
+          <div className="logo-anim logo-loader relative text-lavender">
             <span className="hero-logo-glow absolute -inset-[35%] rounded-full bg-lavender/25 blur-3xl" />
             <ServiceOrbit />
             <span className="hero-logo-pulse relative block">
-              <LogoMark className="h-24 w-auto sm:h-32 md:h-48" />
+              <LogoMark className="h-20 w-auto sm:h-28 md:h-40" />
             </span>
           </div>
-          {firstName && (
-            <div className="hero-name grid">
-              <div className="min-w-0 overflow-hidden">
-                <div className="hero-name-inner whitespace-nowrap ps-5 font-display uppercase leading-[0.95] text-paper md:ps-8">
-                  <span className="block text-4xl font-extrabold tracking-wide sm:text-5xl md:text-7xl">{firstName}</span>
-                  {restName.length > 0 && (
-                    <span className="mt-1 block text-sm font-medium tracking-[0.08em] text-paper/85 sm:text-lg md:text-2xl">
-                      {restName.join(" ")}
-                    </span>
+          <div className="hero-name grid">
+            <div className="min-h-0 overflow-hidden">
+              <div className="hero-name-inner flex flex-col items-center pt-6 md:pt-8">
+                <LogoLockup size="xl" />
+                <span
+                  dir="auto"
+                  className={cn(
+                    "hero-tagline mt-3 block font-sans text-[0.65rem] font-semibold text-lavender sm:text-xs md:mt-4 md:text-sm",
+                    locale === "ar" ? "text-xs sm:text-sm md:text-base" : "tracking-[0.2em]",
                   )}
-                  <span
-                    dir="auto"
-                    className={cn(
-                      "hero-tagline mt-2 block font-sans text-[0.6rem] font-semibold text-lavender sm:text-xs md:mt-3 md:text-sm",
-                      locale === "ar" ? "text-left text-xs sm:text-sm md:text-base" : "tracking-[0.2em]",
-                    )}
-                  >
-                    {dict.home.tagline360}
-                  </span>
-                </div>
+                >
+                  {dict.home.tagline360}
+                </span>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
 

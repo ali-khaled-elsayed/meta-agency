@@ -52,7 +52,7 @@ export function Header(props: HeaderProps) {
           )}
         >
           <Link href={homeHref} aria-label={siteName} className="relative z-10 shrink-0">
-            <LogoLockup name={siteName} className="logo-intro" />
+            <LogoLockup className="logo-intro" />
           </Link>
 
           <nav aria-label={labels.primary} className="hidden lg:block">

@@ -93,7 +93,7 @@ export function Footer({ locale, settings, dict, nav }: Props) {
           <div className="lg:col-span-4">
             <Link href={href(routes.home)} aria-label={siteName} className="inline-block">
               <InView as="span" className="logo-onview block">
-                <LogoLockup name={siteName} size="lg" />
+                <LogoLockup size="lg" />
               </InView>
             </Link>
             {settings.tagline && <p className="mt-6 max-w-sm leading-relaxed text-paper/60">{settings.tagline}</p>}

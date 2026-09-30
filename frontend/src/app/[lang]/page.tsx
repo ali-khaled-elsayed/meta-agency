@@ -27,12 +27,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 function renderSection(
   section: HomeSection,
-  ctx: { locale: Locale; dict: Dictionary; heroVideo: string | null; siteName: string; introHasStats: boolean },
+  ctx: { locale: Locale; dict: Dictionary; heroVideo: string | null; introHasStats: boolean },
 ) {
   const { locale, dict } = ctx;
   switch (section.type) {
     case "hero":
-      return <HeroSection section={section} locale={locale} dict={dict} videoUrl={ctx.heroVideo} siteName={ctx.siteName} />;
+      return <HeroSection section={section} locale={locale} dict={dict} videoUrl={ctx.heroVideo} />;
     case "client_marquee":
       return <ClientGrid clients={section.items} title={section.title} />;
     case "introduction":
@@ -70,7 +70,7 @@ export default async function HomePage({ params }: Props) {
   if (!home) notFound();
 
   const introHasStats = home.sections.some((s) => s.type === "introduction" && s.statistics.length > 0);
-  const ctx = { locale, dict, heroVideo: settings.hero_video_url, siteName: settings.site_name ?? "Meta Egypt Agency", introHasStats };
+  const ctx = { locale, dict, heroVideo: settings.hero_video_url, introHasStats };
   return (
     <>
       {home.sections.map((section, i) => (

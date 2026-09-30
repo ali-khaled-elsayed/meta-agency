@@ -46,9 +46,9 @@ class SettingsSeeder extends Seeder
                 'source' => 'optional',
                 'message' => 'optional',
             ],
-            'logo' => $this->publishAsset('brand/meta-egypt-logo.png'),
-            'logo_light' => $this->publishAsset('brand/meta-egypt-logo.png'),
-            'logo_icon' => $this->publishAsset('brand/meta-egypt-icon.png'),
+            'logo' => $this->publishAsset('brand/meta-agency-logo.png'),
+            'logo_light' => $this->publishAsset('brand/meta-agency-logo-light.png'),
+            'logo_icon' => $this->publishAsset('brand/meta-agency-icon.png'),
         ];
 
         foreach ($settings as $key => $value) {

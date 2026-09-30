@@ -283,14 +283,14 @@ html.lenis body {
 .hero-logo-pulse {
   animation: hero-logo-pulse 0.7s ease-out calc(var(--hero-converge-at) + 0.4s);
 }
-/* The name slides out from behind the mark: its column opens from 0 while the text wipes in. */
+/* The wordmark drops out from under the mark: its row opens from 0 while the text wipes in. */
 .hero-name {
-  grid-template-columns: 0fr;
+  grid-template-rows: 0fr;
   animation: hero-name-open 1s var(--ease-expo) var(--hero-name-at) forwards;
 }
 .hero-name-inner {
-  clip-path: inset(0 100% 0 0);
-  translate: -1.5rem 0;
+  clip-path: inset(0 0 100% 0);
+  translate: 0 -1.5rem;
   animation: hero-name-reveal 1s var(--ease-expo) var(--hero-name-at) forwards;
 }
 .hero-tagline {
@@ -323,7 +323,7 @@ html.lenis body {
   60% { scale: 0.97; }
 }
 @keyframes hero-name-open {
-  to { grid-template-columns: 1fr; }
+  to { grid-template-rows: 1fr; }
 }
 @keyframes hero-name-reveal {
   to { clip-path: inset(0 0 0 0); translate: 0 0; }
@@ -414,12 +414,6 @@ html.lenis body {
 .logo-onview {
   --logo-delay: 0.1s;
 }
-.logo-intro .logo-m,
-.logo-loader .logo-m,
-.logo-onview .logo-m {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-}
 .logo-intro .logo-bar,
 .logo-loader .logo-bar,
 .logo-onview .logo-bar {
@@ -429,22 +423,16 @@ html.lenis body {
 .logo-onview .logo-text {
   opacity: 0;
 }
-.logo-intro .logo-m,
-.logo-loader .logo-m,
-.logo-onview[data-inview] .logo-m {
-  animation: logo-draw 0.9s var(--ease-quart) forwards;
-  animation-delay: var(--logo-delay);
-}
 .logo-intro .logo-bar,
 .logo-loader .logo-bar,
 .logo-onview[data-inview] .logo-bar {
   animation: logo-bar 0.6s var(--ease-expo) forwards;
-  animation-delay: calc(var(--logo-delay) + 0.4s + var(--bar) * 0.14s);
+  animation-delay: calc(var(--logo-delay) + var(--bar) * 0.12s);
 }
 .logo-intro .logo-text,
 .logo-onview[data-inview] .logo-text {
   animation: logo-text-in 0.8s var(--ease-expo) forwards;
-  animation-delay: calc(var(--logo-delay) + 0.55s);
+  animation-delay: var(--logo-delay);
 }
 
 /* Footer wordmark: letters rise in sequence once the footer is on screen. */
@@ -459,9 +447,6 @@ html.lenis body {
 .logo-loop .logo-bar-eq {
   animation: logo-eq 0.6s ease-in-out infinite alternate;
   animation-delay: calc(var(--bar) * -0.2s);
-}
-@keyframes logo-draw {
-  to { stroke-dashoffset: 0; }
 }
 @keyframes logo-bar {
   to { transform: scaleY(1); }
@@ -801,7 +786,6 @@ html.lenis body {
     scale: none;
   }
   .badge-spin,
-  .logo-m,
   .logo-bar,
   .logo-bar-eq,
   .logo-text,
