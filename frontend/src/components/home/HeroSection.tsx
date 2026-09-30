@@ -9,17 +9,7 @@ import { localizeHref } from "@/lib/routes";
 import { cn, isVideoFile } from "@/lib/utils";
 import { HeroBackdrop } from "./HeroBackdrop";
 import { ScrollBadge } from "./ScrollBadge";
-
-/** Side-view leg: thigh swings at the hip, shin bends at the knee, foot rolls heel to toe (walking toward the mark). */
-function Leg({ className }: { className?: string }) {
-  return (
-    <span className={cn("hero-thigh absolute left-0 top-0 block h-6 w-full rounded-full bg-lavender md:h-9", className)}>
-      <span className="hero-shin absolute left-0 top-[calc(100%-0.3rem)] block h-6 w-full rounded-full bg-lavender md:h-9">
-        <span className="hero-foot absolute bottom-0 right-0 block h-2 w-5 rounded-full bg-lavender md:h-2.5 md:w-7" />
-      </span>
-    </span>
-  );
-}
+import { ServiceOrbit } from "./ServiceOrbit";
 
 type Props = { section: HomeSection; locale: Locale; dict: Dictionary; videoUrl?: string | null; siteName?: string };
 
@@ -60,31 +50,34 @@ export function HeroSection({ section, locale, dict, videoUrl, siteName = "" }: 
       )}
 
       <div aria-hidden className="hero-logo pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
-        <div dir="ltr" className="flex items-center gap-5 md:gap-8">
+        <div dir="ltr" className="flex items-center">
           <div className="logo-anim logo-loader relative text-paper">
             <span className="hero-logo-glow absolute -inset-[35%] rounded-full bg-lavender/25 blur-3xl" />
-            <LogoMark className="relative h-24 w-auto sm:h-32 md:h-48" />
+            <ServiceOrbit />
+            <span className="hero-logo-pulse relative block">
+              <LogoMark className="h-24 w-auto sm:h-32 md:h-48" />
+            </span>
           </div>
           {firstName && (
-            <div className="hero-walk font-display uppercase leading-[0.95] text-paper">
-              <div className="hero-sit relative [--thigh:1.25rem] md:[--thigh:1.9rem]">
-              <span className="block text-4xl font-extrabold tracking-wide sm:text-5xl md:text-7xl">
-                <span className="hero-step inline-block">{firstName}</span>
-              </span>
-              {restName.length > 0 && (
-                <span className="mt-1 flex gap-[0.4em] text-sm font-medium tracking-[0.08em] text-paper/85 sm:text-lg md:text-2xl">
-                  {restName.map((word, i) => (
-                    <span key={`${word}-${i}`} className="hero-step inline-block" style={{ "--step": i + 1 } as CSSProperties}>
-                      {word}
+            <div className="hero-name grid">
+              <div className="min-w-0 overflow-hidden">
+                <div className="hero-name-inner whitespace-nowrap ps-5 font-display uppercase leading-[0.95] text-paper md:ps-8">
+                  <span className="block text-4xl font-extrabold tracking-wide sm:text-5xl md:text-7xl">{firstName}</span>
+                  {restName.length > 0 && (
+                    <span className="mt-1 block text-sm font-medium tracking-[0.08em] text-paper/85 sm:text-lg md:text-2xl">
+                      {restName.join(" ")}
                     </span>
-                  ))}
-                </span>
-              )}
-              <span className="hero-legs absolute left-1/2 top-full mt-1 block w-2 -translate-x-1/2 md:w-2.5">
-                <Leg className="hero-leg-back opacity-60" />
-                <Leg />
-                <span className="absolute left-1/2 top-0 block h-3 w-3 -translate-x-1/2 -translate-y-1/3 rounded-full bg-lavender md:h-3.5 md:w-3.5" />
-              </span>
+                  )}
+                  <span
+                    dir="auto"
+                    className={cn(
+                      "hero-tagline mt-2 block font-sans text-[0.6rem] font-semibold text-lavender sm:text-xs md:mt-3 md:text-sm",
+                      locale === "ar" ? "text-left text-xs sm:text-sm md:text-base" : "tracking-[0.2em]",
+                    )}
+                  >
+                    {dict.home.tagline360}
+                  </span>
+                </div>
               </div>
             </div>
           )}

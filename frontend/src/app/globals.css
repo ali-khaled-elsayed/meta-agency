@@ -241,101 +241,92 @@ html.lenis body {
 /* Home hero: the logo draws large, then shrinks away while the background video fades in behind it. */
 .hero-intro {
   --hero-logo-at: var(--intro-delay);
-  --hero-walk-at: calc(var(--hero-logo-at) + 0.5s);
-  --hero-stop-at: calc(var(--hero-walk-at) + 1.28s);
-  --hero-sit-at: calc(var(--hero-walk-at) + 1.7s);
-  --hero-media-at: calc(var(--intro-delay) + 3.4s);
+  --hero-orbit-in-at: calc(var(--hero-logo-at) + 0.5s);
+  --hero-converge-at: calc(var(--hero-logo-at) + 3.1s);
+  --hero-name-at: calc(var(--hero-logo-at) + 3.4s);
+  --hero-media-at: calc(var(--intro-delay) + 4.5s);
+  --orbit-dur: 3.1s;
+  --orbit-r: 9.5rem;
+  --orbit-far: 75vw;
+  --orbit-ease: cubic-bezier(0.45, 0, 0.25, 1);
 }
-/* The agency name walks in from the side on little legs, bobbing each step, and stops beside the mark. */
-.hero-walk {
-  transform: translateX(80vw);
-  animation: hero-walk 1.5s linear var(--hero-walk-at) forwards;
+@media (min-width: 640px) {
+  .hero-intro { --orbit-r: 13rem; }
 }
-.hero-step {
-  animation: hero-step 0.32s ease-in-out calc(var(--hero-walk-at) + var(--step, 0) * 0.16s) 4;
+@media (min-width: 768px) {
+  .hero-intro { --orbit-r: 19rem; }
 }
-/* On arrival the legs stop and straighten, then fold as the name sits down on them, and fade once seated. */
-.hero-legs {
-  animation: hero-legs-out 0.35s ease-out calc(var(--hero-sit-at) + 0.5s) forwards;
+/* Every service flies in from off-screen, circles the mark once while the dashed ring draws, then spirals into it. */
+.orbit {
+  animation: orbit-spin var(--orbit-dur) var(--orbit-ease) var(--hero-orbit-in-at) both;
 }
-.hero-sit {
-  animation: hero-sit 1.2s var(--ease-quart) var(--hero-sit-at) both;
+.orbit-slot {
+  transform: rotate(var(--a));
 }
-.hero-thigh,
-.hero-shin {
-  transform-origin: 50% 0.3rem;
+.orbit-fly {
+  opacity: 0;
+  animation: orbit-fly var(--orbit-dur) var(--orbit-ease) calc(var(--hero-orbit-in-at) + var(--i) * 0.04s) both;
 }
-.hero-foot {
-  transform-origin: 100% 50%;
+/* Cancels the slot angle and the container spin so the glyphs stay upright. */
+.orbit-icon {
+  transform: rotate(calc(var(--a) * -1));
+  animation: orbit-counter var(--orbit-dur) var(--orbit-ease) var(--hero-orbit-in-at) both;
 }
-.hero-thigh,
-.hero-shin,
-.hero-foot {
-  animation-duration: 0.64s, 0.22s, 0.45s;
-  animation-timing-function: linear, ease-out, ease-in-out;
-  animation-delay: calc(var(--hero-walk-at) - var(--stride, 0s)), var(--hero-stop-at), var(--hero-sit-at);
-  animation-iteration-count: var(--strides, 2), 1, 1;
-  animation-fill-mode: both, forwards, forwards;
+.orbit-ring {
+  animation: orbit-ring-out 0.7s var(--ease-quart) var(--hero-converge-at) forwards;
 }
-.hero-thigh { animation-name: hero-thigh, hero-joint-stand, hero-thigh-sit; }
-.hero-shin { animation-name: hero-shin, hero-joint-stand, hero-shin-sit; }
-.hero-foot { animation-name: hero-foot, hero-joint-stand, none; }
-.hero-leg-back,
-.hero-leg-back * {
-  --stride: 0.32s;
-  --strides: 2.5;
+.orbit-ring-draw {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: orbit-ring-draw 1.5s var(--ease-quart) calc(var(--hero-orbit-in-at) + 0.7s) forwards;
 }
-@keyframes hero-joint-stand {
-  to { rotate: 0deg; }
+.hero-logo-pulse {
+  animation: hero-logo-pulse 0.7s ease-out calc(var(--hero-converge-at) + 0.4s);
 }
-@keyframes hero-thigh-sit {
+/* The name slides out from behind the mark: its column opens from 0 while the text wipes in. */
+.hero-name {
+  grid-template-columns: 0fr;
+  animation: hero-name-open 1s var(--ease-expo) var(--hero-name-at) forwards;
+}
+.hero-name-inner {
+  clip-path: inset(0 100% 0 0);
+  translate: -1.5rem 0;
+  animation: hero-name-reveal 1s var(--ease-expo) var(--hero-name-at) forwards;
+}
+.hero-tagline {
+  opacity: 0;
+  animation: intro-fade 0.7s var(--ease-expo) calc(var(--hero-name-at) + 0.4s) forwards;
+}
+@keyframes orbit-spin {
   from { rotate: 0deg; }
-  to { rotate: 82deg; }
+  to { rotate: 360deg; }
 }
-@keyframes hero-shin-sit {
+@keyframes orbit-counter {
   from { rotate: 0deg; }
-  to { rotate: -88deg; }
+  to { rotate: -360deg; }
 }
-@keyframes hero-sit {
-  0% { translate: 0 0; }
-  38%, 62% { translate: 0 var(--thigh); }
-  100% { translate: 0 0; }
+@keyframes orbit-fly {
+  0% { translate: var(--orbit-far) 0; opacity: 0; scale: 0.6; }
+  33% { translate: var(--orbit-r) 0; opacity: 1; scale: 1; }
+  76% { translate: var(--orbit-r) 0; opacity: 1; scale: 1; }
+  100% { translate: 0 0; opacity: 0; scale: 0.2; }
 }
-@keyframes hero-walk {
-  0% { transform: translateX(80vw); }
-  85% { transform: translateX(-0.75rem); }
-  100% { transform: translateX(0); }
+@keyframes orbit-ring-draw {
+  to { stroke-dashoffset: 0; }
 }
-@keyframes hero-step {
-  50% {
-    translate: 0 -0.14em;
-    rotate: -5deg;
-  }
+@keyframes orbit-ring-out {
+  to { opacity: 0; scale: 0.3; }
 }
-/* One stride: heel strike in front, stance sweeps the leg back, toe-off, then the knee folds as it swings through. */
-@keyframes hero-thigh {
-  0%, 100% { rotate: 26deg; animation-timing-function: ease-in-out; }
-  55% { rotate: -24deg; animation-timing-function: ease-in-out; }
+@keyframes hero-logo-pulse {
+  0%, 100% { scale: 1; }
+  30% { scale: 1.08; }
+  60% { scale: 0.97; }
 }
-@keyframes hero-shin {
-  0%, 100% { rotate: 0deg; }
-  30% { rotate: -8deg; }
-  55% { rotate: -22deg; }
-  72% { rotate: -62deg; }
-  90% { rotate: -6deg; }
+@keyframes hero-name-open {
+  to { grid-template-columns: 1fr; }
 }
-@keyframes hero-foot {
-  0%, 100% { rotate: 18deg; }
-  15% { rotate: 0deg; }
-  50% { rotate: 0deg; }
-  62% { rotate: -30deg; }
-  80% { rotate: 0deg; }
-}
-@keyframes hero-legs-out {
-  to {
-    opacity: 0;
-    filter: blur(3px);
-  }
+@keyframes hero-name-reveal {
+  to { clip-path: inset(0 0 0 0); translate: 0 0; }
 }
 .hero-intro .hero-copy {
   --intro-delay: calc(var(--hero-media-at) + 0.5s);
